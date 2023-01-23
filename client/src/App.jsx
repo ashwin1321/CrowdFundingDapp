@@ -13,6 +13,9 @@ const App = () => {
         <Navbar />
         <Routes>
           <Route path="/" element={<Home />} />
+          <Route path="/profile" element={<Profile />} />
+          <Route path="/create-campaign" element={<CreateCamp />} />
+          <Route path="/createcampaign-details" element={<CampaignDetails />} />
         </Routes>
       </div>
     </div>
