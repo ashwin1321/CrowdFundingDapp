@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { ethers } from "ethers";
+import { useStateContext } from "../context";
 import { money } from "../assets";
 import { CustomButton } from "../components";
 import { checkIfImage } from "../utils";
@@ -9,6 +10,7 @@ import { FormField } from "../components";
 const CreateCamp = () => {
   const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(false);
+  const { createCamp } = useStateContext(); //  sharing the data from one page to other page
   const [form, setForm] = useState({
     name: "",
     title: "",
@@ -24,7 +26,21 @@ const CreateCamp = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log(form);
+
+    checkIfImage(form.image, async (exists) => {
+      if (exists) {
+        setIsLoading(true);
+        await createCamp({
+          ...form,
+          target: ethers.utils.parseUnits(form.target, 18),
+        });
+        setIsLoading(false);
+        navigate("/");
+      } else {
+        alert("Provide valid image URL");
+        setForm({ ...form, image: "" });
+      }
+    });
   };
   return (
     <div className="bg-[#1c1c24] flex flex-col justify-center items-center rounded-[10px] sm:p-10 p-4">
