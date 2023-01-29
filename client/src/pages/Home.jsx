@@ -13,7 +13,6 @@ const Home = () => {
     const data = await getCampaigns();
     setCampaigns(data);
     setIsLoading(false);
-    console.log(campaigns);
   };
 
   useEffect(() => {
@@ -22,7 +21,13 @@ const Home = () => {
     }
   }, [address, contract]);
 
-  return <div>Home</div>;
+  return (
+    <DisplayCampaigns
+      title="All Campaigns"
+      isLoading={isLoading}
+      campaigns={campaigns}
+    />
+  );
 };
 
 export default Home;
